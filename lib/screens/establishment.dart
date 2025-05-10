@@ -168,7 +168,11 @@ class _EstablishmentScreenState extends State<EstablishmentScreen> {
                           .collection('users')
                           .doc(text)
                           .get();
-
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.loading,
+                    barrierDismissible: false,
+                  );
                   try {
                     if (user.exists) {
                       QuerySnapshot data =
@@ -182,11 +186,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen> {
 
                       if (data.docs.isEmpty ||
                           data.docs.first['timeout'] != null) {
-                        QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.loading,
-                          barrierDismissible: false,
-                        );
                         await FirebaseFirestore.instance
                             .collection('establishments')
                             .doc(widget.uid)
@@ -215,11 +214,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen> {
                           title: "Scan success!",
                         );
                       } else {
-                        QuickAlert.show(
-                          context: context,
-                          type: QuickAlertType.loading,
-                          barrierDismissible: false,
-                        );
                         QuerySnapshot latestEst =
                             await FirebaseFirestore.instance
                                 .collection('establishments')
@@ -237,7 +231,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen> {
                                 .orderBy('timein', descending: true)
                                 .limit(1)
                                 .get();
-
                         latestCli.docs.first.reference.update({
                           'timeout': DateTime.now(),
                         });
@@ -245,6 +238,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen> {
                         latestEst.docs.first.reference.update({
                           'timeout': DateTime.now(),
                         });
+
                         Navigator.of(context).pop();
                         QuickAlert.show(
                           context: context,

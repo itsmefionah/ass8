@@ -108,7 +108,7 @@ class _ViewClientRecordState extends State<ViewClientRecord> {
                                     'MMMM d, y',
                                   ).format(widget.est['timeout'].toDate()),
                               widget.est['timeout'] == null
-                                  ? "Pending"
+                                  ? ""
                                   : DateFormat(
                                     'h:mm a',
                                   ).format(widget.est['timeout'].toDate()),

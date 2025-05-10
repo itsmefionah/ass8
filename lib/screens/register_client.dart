@@ -326,18 +326,19 @@ class _RegisterclientState extends State<Registerclient> {
       cancelBtnText: "Cancel",
       confirmBtnColor: Colors.indigo,
       onConfirmBtnTap: () {
+        Navigator.of(context).pop();
         registerClient();
       },
     );
   }
 
   void registerClient() async {
-    // QuickAlert.show(
-    //   context: context,
-    //   type: QuickAlertType.loading,
-    //   text: "Processing your registration...",
-    // );
     try {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.loading,
+        text: "Processing your registration...",
+      );
       UserCredential userCred = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: emailCtrl.text,
@@ -356,13 +357,13 @@ class _RegisterclientState extends State<Registerclient> {
             'email': emailCtrl.text,
             'createdAt': FieldValue.serverTimestamp(),
           });
-      Navigator.of(context).pop();
 
       await QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
         title: "Registration Successful",
         text: "Your account has been created successfully!",
+        barrierDismissible: false,
       );
 
       Navigator.of(
